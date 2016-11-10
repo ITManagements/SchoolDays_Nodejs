@@ -37,7 +37,7 @@ User.prototype.save = function save(callback) {
 }
 
 User.get = function get(username, callback) {
-    db.get('users', { name: username }, function (err, result) {
+    db.get('users', { username: username }, function (err, result) {
         if (result) {
             var newUser = new User(result);
             callback(err, newUser);

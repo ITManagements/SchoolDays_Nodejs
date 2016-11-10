@@ -85,6 +85,10 @@ Schedule.prototype.update = function update(callback) {
     dbControl.update('schedules', { _id: s.schedule_id }, s.toData(), callback);
 }
 
+Schedule.remover = function remove(id, callback) {
+    dbControl.remove('schedules', { _id: id }, callback);
+}
+
 Schedule.findBySelector = function findBySelector(selector, callback) {
     var s = new Object();
     if (selector.schedule_id != undefined)

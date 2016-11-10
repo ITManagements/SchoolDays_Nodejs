@@ -36,6 +36,7 @@
     <Compile Include="modules\Schedule.js" />
     <Compile Include="modules\User.js" />
     <Compile Include="routes\index.js" />
+    <Compile Include="routes\schedule.js" />
     <Compile Include="routes\users.js" />
     <Compile Include="bin\www" />
     <Compile Include="settings.js" />
