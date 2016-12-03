@@ -1,4 +1,5 @@
 ﻿module.exports = {
+    cookie_secret: 'secret_meteoric',
     db: 'schooldaysDB',
     url: 'mongodb://localhost/schooldaysDB',
     //db : 'bdtest',

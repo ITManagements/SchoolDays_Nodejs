@@ -3,8 +3,10 @@
 function User(user) {
     if (user.name != undefined)
         this.name = user.name;
-    else
+    else if (user.username != undefined)
         this.name = user.username;
+    else
+        this.name = null;
     this.password = user.password;
     if (user.nick_name != undefined)
         this.nick_name = user.nick_name;

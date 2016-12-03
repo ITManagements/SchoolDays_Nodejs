@@ -11,8 +11,10 @@ function Schedule(schedule) {
 
     if (schedule.username != undefined)
         this.name = schedule.username;
-    else
+    else if (schedule.name != undefined)
         this.name = schedule.name;
+    else
+        this.name = null;
 
     this.type = schedule.type;
     this.brief = schedule.brief;
@@ -65,7 +67,7 @@ Schedule.prototype.save = function save(callback) {
     this.date_set = new Date();
     db.insert('schedules', null, this.toData(), function (err, result) {
         this.schedule_id = result.insertedIds[0].toJSON();
-        callback(err, this.schedule_id);
+        callback(err, { schedule_id: this.schedule_id, data_set: this.date_set });
     });
 }
 
@@ -82,7 +84,7 @@ Schedule.get = function get(id, callback) {
 
 Schedule.prototype.update = function update(callback) {
     this.date_set = new Date();
-    dbControl.update('schedules', { _id: s.schedule_id }, s.toData(), callback);
+    dbControl.update('schedules', { _id: this.schedule_id }, s.toData(), callback);
 }
 
 Schedule.remover = function remove(id, callback) {

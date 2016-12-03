@@ -4,8 +4,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+//-------------------------------new
+//var flash = require('connect-flash');
+//var partials = require('express-partials');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+var settings = require('./settings');
 
-//var routes = require('./routes/index');
+
+var routes = require('./routes/index');
 var users = require('./routes/users');
 var schedules = require('./routes/schedules');
 
@@ -23,8 +30,28 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+//---------------new--------------
 
-//app.use('/', routes);
+app.use(session({
+    secret: settings.cookie_secret,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 },//超时时间
+    resave: false,
+    saveUninitialized: true,
+    store: new MongoStore({
+        url: settings.url,
+    })
+})
+);
+
+//--------------------routes
+
+app.use('/', routes);
+app.use('/', function (req, res, next) {
+    if (!req.session.userName) {
+        res.send(JSON.stringify({ result: 1 }));
+    }
+});
+
 app.use('/users', users);
 app.use('/schedules', users);
 
