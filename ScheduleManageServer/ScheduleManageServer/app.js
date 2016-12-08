@@ -44,12 +44,14 @@ app.use(session({
 );
 
 //--------------------routes
-
 app.use('/', routes);
 app.use('/', function (req, res, next) {
-    if (!req.session.userName) {
-        res.send(JSON.stringify({ result: 1 }));
+    console.log(req.session.name);
+    if (!req.session.name) {
+        res.json(JSON.stringify({ result: 1 }));
+        return;
     }
+    next();
 });
 
 app.use('/users', users);

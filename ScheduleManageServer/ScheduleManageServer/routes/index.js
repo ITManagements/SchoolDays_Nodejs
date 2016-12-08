@@ -8,30 +8,37 @@ router.get('/', function (req, res) {
 });
 
 //login
-router.get('oauth2/access_token', function (req, res) {
-    User.get(req.body['username'], function (err, user) {
+router.post('/login', function (req, res) {
+    //console.log(req.body);
+    User.get(req.body['name'], function (err, user) {
         //console.log(req);
+        
         if (!user) {
             console.log('notExit');
-            res.send(JSON.stringify({ result: 1 }));
+            res.json(JSON.stringify({ result: 1 }));
+            return;
         }
         if (user.password != req.body.password) {
             console.log('errPaw');
-            res.send(JSON.stringify({ result: 1 }));
+            res.json(JSON.stringify({ result: 1 }));
+            return;
         }
-        req.session.userName = user.userName;
-        res.send(JSON.stringify({ result: 0 }));
+        req.session.name = user.name;
+        console.log(user);
+
+        res.json(JSON.stringify({ result: 0 }));
     }); 
 });
 
 //
-router.get('/add_user', function (req, res) {
+router.post('/add_user', function (req, res) {
     var newUser = new User(req.body);
+    //console.log(req.body);
     newUser.save(function (err) {
         if (err)
-            res.send(JSON.stringify({ result: 1 }));
+            res.json(JSON.stringify({ result: 1 }));
         else
-            res.send(JSON.stringify({ result: 0 }));
+            res.json(JSON.stringify({ result: 0 }));
     });
 });
 

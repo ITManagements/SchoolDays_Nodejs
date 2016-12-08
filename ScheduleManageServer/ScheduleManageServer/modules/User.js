@@ -18,9 +18,9 @@ module.exports = User;
 
 User.prototype.toJSON = function toJSON(callback) {
     var user = {
-        name: this.username,
+        name: this.name,
         password: this.password,
-        nick_name: this.nickname
+        nick_name: this.nick_name
     };
     return user;
 }
