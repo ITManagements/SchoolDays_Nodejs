@@ -6,7 +6,6 @@ var User = require('../modules/User');
 router.get('/', function (req, res) {
     res.render('index', { title: 'Express' });
 });
-
 //login
 router.post('/login', function (req, res) {
     //console.log(req.body);
@@ -29,7 +28,6 @@ router.post('/login', function (req, res) {
         res.json(JSON.stringify({ result: 0 }));
     }); 
 });
-
 //
 router.post('/add_user', function (req, res) {
     var newUser = new User(req.body);

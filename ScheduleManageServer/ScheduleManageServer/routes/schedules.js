@@ -4,15 +4,15 @@ var Schedule = require('../modules/Schedule');
 
 router.post('/add_schedule', function (req, res) {
     var newSchedule = new Schedule(req.body);
-    newSchedule.name = req.session.username;
+    newSchedule.name = req.session.name;
     newSchedule.save(function (err, result) {
         if (err)
             res.json(JSON.stringify({ result: 1 }));
         else {
             result.result = 0;
+            result.data_set = newSchedule.date_set.toJSON();
             res.json(JSON.stringify(result));
         }
-            
     });
 });
 
@@ -27,15 +27,15 @@ router.post('/remove', function (req, res) {
 
 
 router.post('/find_schedules', function (req, res) {
-    Schedule.findBySelector(req.body, function (err, result) {
+    Schedule.findBySelector(req.query, function (err, result) {
         if (err)
             res.json(JSON.stringify({ result: 1 }));
         else {
             var ret = new Object();
             ret.result = 0;
-            result.schedules = new Array(result.length)
+            ret.schedules = new Array(result.length);
             for (var i = 0; i < result.length; i++)
-                result.schedules[i] = result.toJSON();
+                ret.schedules[i] = result[i].toJSON();
             res.json(JSON.stringify(ret));
         }
     });

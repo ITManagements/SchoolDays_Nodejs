@@ -33,6 +33,7 @@
     <Compile Include="app.js" />
     <Compile Include="modules\db.js" />
     <Compile Include="modules\dbControl.js" />
+    <Compile Include="modules\mCookie.js" />
     <Compile Include="modules\Schedule.js" />
     <Compile Include="modules\User.js" />
     <Compile Include="routes\index.js" />
@@ -68,6 +69,7 @@
     <Folder Include="typings\globals\jade\" />
     <Folder Include="typings\globals\mime\" />
     <Folder Include="typings\globals\mongodb\" />
+    <Folder Include="typings\globals\mongoose\" />
     <Folder Include="typings\globals\morgan\" />
     <Folder Include="typings\globals\node\" />
     <Folder Include="typings\globals\serve-favicon\" />
@@ -86,6 +88,7 @@
     <TypeScriptCompile Include="typings\globals\jade\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\mime\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\mongodb\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\mongoose\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\morgan\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\serve-favicon\index.d.ts" />

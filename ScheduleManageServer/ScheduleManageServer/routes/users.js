@@ -11,8 +11,8 @@ router.post('/find_user', function (req, res) {
             var ret = new Object();
             ret.result = 0;
             ret.users = new Array(1);
-            users[0] = result.toJSON();
-            res.json(JSON.stringify());
+            ret.users[0] = result.toJSON();
+            res.json(JSON.stringify(ret));
         }
     });
 });
