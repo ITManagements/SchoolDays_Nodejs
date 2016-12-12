@@ -51,5 +51,5 @@ User.get = function get(username, callback) {
 }
 
 User.prototype.update = function update(callback) {
-    dbControl.update('users', { name: this.name }, this.toData(), callback);
+    db.update('users', { name: this.name }, this.toData(), callback);
 }

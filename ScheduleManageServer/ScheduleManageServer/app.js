@@ -11,6 +11,7 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var settings = require('./settings');
 
+var MyCookie = require('./modules/mCookie');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -46,6 +47,7 @@ app.use(session({
 //--------------------routes
 app.use('/', routes);
 
+/*
 app.use('/', function (req, res, next) {
     console.log(req.session.name);
     if (!req.session.name) {
@@ -54,9 +56,37 @@ app.use('/', function (req, res, next) {
     }
     next();
 });
+*/
+
+app.use('/', function (req, res, next) {
+    var token = null;
+    if (req.query.access_token != undefined) {
+        token = req.query.access_token;
+    }
+    else if (req.body.access_token != undefined) {
+        token = req.body.access_token;
+        
+    }
+    else {
+        console.log("err tocken");
+        res.json(JSON.stringify({ result: 1 }));
+        
+        return;
+    }
+    MyCookie.getCookie(token, function (err, result) {
+        if (err || !result)
+            res.json(JSON.stringify({ result: 1 }));
+        else
+        {
+            console.log("pass");
+            req.username = result.name;
+            next();
+        }
+    });
+});
 
 app.use('/users', users);
-app.use('/schedules', users);
+app.use('/schedules', schedules);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -72,13 +102,13 @@ app.use(function (req, res, next) {
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
         res.status(err.status || 500);
-        res.json({ error: err.Message, result: 1 });
-/*
+        //res.json({ error: err.Message, result: 1 });
+
     res.render('error', {
         message: err.message,
         error: {}
     });
-*/
+
     });
 }
 
@@ -86,13 +116,13 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
-    res.json({ error: err.Message, result: 1 });
-/*
+   // res.json({ error: err.Message, result: 1 });
+
     res.render('error', {
         message: err.message,
         error: {}
     });
-*/
+
 });
 
 

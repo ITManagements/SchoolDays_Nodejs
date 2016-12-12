@@ -27,6 +27,7 @@ dbControl.insert = function insert(collectionName, keyName, tuple, callback) {
 
 //获取一个元组，第一个参数为表名，第二个参数为选择器，与mongo的选择器相同，第三个参数为回调函数
 dbControl.get = function get(collectionName, selector, callback) {
+    
     mongodb.open(function (err, db) {
         if (err) {
             return callback(err, null);

@@ -3,8 +3,13 @@ var router = express.Router();
 var User = require('../modules/User');
 
 
-router.post('/find_user', function (req, res) {
-    User.get(req.session.name, function (err, result) {
+router.get('/find_user', function (req, res) {
+    var name;
+    if (req.query.name == undefined)
+        name = req.username;
+    else
+        name = req.query.name;
+    User.get(name, function (err, result) {
         if (err)
             res.json(JSON.stringify({ result: 1 }));
         else {
@@ -18,7 +23,8 @@ router.post('/find_user', function (req, res) {
 });
 router.post('/update', function (req, res) {
     var updateUser = new User(req.body);
-    updateUser.name = session.name;
+    if (req.body.name == undefined)
+        updateUser.name = req.username;
     updateUser.update(function (err) {
         if (err)
             res.json(JSON.stringify({ result: 1 }));

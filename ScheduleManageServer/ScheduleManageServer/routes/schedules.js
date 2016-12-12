@@ -4,12 +4,13 @@ var Schedule = require('../modules/Schedule');
 
 router.post('/add_schedule', function (req, res) {
     var newSchedule = new Schedule(req.body);
-    newSchedule.name = req.session.name;
+    newSchedule.name = req.username;
     newSchedule.save(function (err, result) {
         if (err)
             res.json(JSON.stringify({ result: 1 }));
         else {
             result.result = 0;
+            result.name = req.username;
             result.data_set = newSchedule.date_set.toJSON();
             res.json(JSON.stringify(result));
         }
@@ -26,7 +27,7 @@ router.post('/remove', function (req, res) {
 });
 
 
-router.post('/find_schedules', function (req, res) {
+router.get('/find_schedules', function (req, res) { 
     Schedule.findBySelector(req.query, function (err, result) {
         if (err)
             res.json(JSON.stringify({ result: 1 }));

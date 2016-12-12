@@ -1,17 +1,18 @@
 ﻿var express = require('express');
 var router = express.Router();
 var User = require('../modules/User');
+var MyCookie = require('../modules/mCookie');
 
 /* GET home page. */
 router.get('/', function (req, res) {
     res.render('index', { title: 'Express' });
 });
 //login
-router.post('/login', function (req, res) {
+function login(req, res) {
     //console.log(req.body);
     User.get(req.body['name'], function (err, user) {
         //console.log(req);
-        
+
         if (!user) {
             console.log('notExit');
             res.json(JSON.stringify({ result: 1 }));
@@ -22,12 +23,14 @@ router.post('/login', function (req, res) {
             res.json(JSON.stringify({ result: 1 }));
             return;
         }
-        req.session.name = user.name;
-        console.log(user);
+        MyCookie.setCookie(user.name, function (err, result) {
+            res.json(JSON.stringify({ result: 0, access_token: result.cookieid, expires_in: 2592000 }));
+        });
+        //console.log(user);
+    });
+}
 
-        res.json(JSON.stringify({ result: 0 }));
-    }); 
-});
+router.post('/login', login);
 //
 router.post('/add_user', function (req, res) {
     var newUser = new User(req.body);

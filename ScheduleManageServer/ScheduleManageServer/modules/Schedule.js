@@ -84,11 +84,11 @@ Schedule.get = function get(id, callback) {
 
 Schedule.prototype.update = function update(callback) {
     this.date_set = new Date();
-    dbControl.update('schedules', { _id: this.schedule_id }, s.toData(), callback);
+    db.update('schedules', { _id: this.schedule_id }, this.toData(), callback);
 }
 
-Schedule.remover = function remove(id, callback) {
-    dbControl.remove('schedules', { _id: id }, callback);
+Schedule.remove = function remove(id, callback) {
+    db.remove('schedules', { _id: id }, callback);
 }
 
 Schedule.findBySelector = function findBySelector(selector, callback) {
